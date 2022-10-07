@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Story</title>
+    <link rel="stylesheet" href="assets/css/main.css">
+    <link rel="stylesheet" href="assets/css/neon-btn.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/three@0.144.0/build/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.144.0/examples/js/geometries/RoundedBoxGeometry.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.144.0/examples/js/controls/OrbitControls.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.144.0/examples/js/loaders/GLTFLoader.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.144.0/examples/js/exporters/GLTFExporter.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/three@0.144.0/examples/js/postprocessing/EffectComposer.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.144.0/examples/js/postprocessing/RenderPass.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.144.0/examples/js/postprocessing/AfterimagePass.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.144.0/examples/js/postprocessing/MaskPass.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.144.0/examples/js/postprocessing/ShaderPass.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.144.0/examples/js/postprocessing/FilmPass.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.144.0/examples/js/postprocessing/GlitchPass.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.144.0/examples/js/postprocessing/BloomPass.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.144.0/examples/js/postprocessing/Pass.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/three@0.144.0/examples/js/shaders/CopyShader.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.144.0/examples/js/shaders/RGBShiftShader.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.144.0/examples/js/shaders/DotScreenShader.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.144.0/examples/js/shaders/FilmShader.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.144.0/examples/js/shaders/ConvolutionShader.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.144.0/examples/js/shaders/BleachBypassShader.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.144.0/examples/js/shaders/VignetteShader.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.144.0/examples/js/shaders/DigitalGlitch.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.144.0/examples/js/shaders/GodRaysShader.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.144.0/examples/js/shaders/AfterimageShader.min.js"></script>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.11.2/dist/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/wavesurfer.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/tweakpane@3.1.0/dist/tweakpane.min.js"></script>
+
+    <script src="assets/js/utils.js"></script>
+    <script src="assets/js/dev.js"></script>
+    <script src="assets/js/main.js"></script>
+    <script src="assets/js/composer.js"></script>
+    <script src="assets/js/story.js"></script>
+    <script src="assets/js/gui.js"></script>
+</head>
+
+<body>
+    <div class="canvas-parent"></div>
+    <div id="music-pannel">
+        <div id="waveform"></div>
+        <a id="change-music" class="neon-btn" href="#"> <span></span>
+            <span></span>
+            <span></span>
+            <span></span> NEXT</a>
+    </div>
+    <div id="mouse-test"></div>
+
+
+    <div id="hello-1" style="position: absolute;
+    top: 120px;
+    left: 10%;
+    display: block;
+    z-index: 999;">
+        <img src="assets/images/lights/11.png" style="width: 200px;" />
+        <p style="    color: white;
+        background: none;
+        position: initial;
+        text-align: left;
+        padding: 0;
+        font-size: 34px;
+        font-weight: 300;
+        font-family: fantasy;
+        width: 1000%;">滑动鼠标滚轮，体验元宇宙入口</p>
+    </div>
+
+    <div id="hello-2" style="position: absolute;
+      bottom: 120px;
+    right: 10%;
+    z-index: 999;display: none;">
+        <p style="    color: white;
+        background: none;
+        position: initial;
+        text-align: left;
+        padding: 0;
+        font-size: 24px;
+        font-weight: 300;
+        font-family: fantasy;
+        width: 1000%;">探寻#美妆妖精元宇宙</p>
+    </div>
+
+    <a id="start" href="#" class="neon-btn" style="position: absolute;bottom:120px;left:45%;z-index: 999;display: none;">
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span> 点亮秀场
+    </a>
+
+    <div id="hello-2-1" style="position: absolute;
+    top: 120px;
+    left: 10%;
+    display: none;
+    z-index: 999;">
+        <img src="assets/images/lights/11.png" style="width: 200px;" />
+        <!-- <p style="    color: white;
+        background: none;
+        position: initial;
+        text-align: left;
+        padding: 0;
+        font-size: 34px;
+        font-weight: 300;
+        font-family: fantasy;
+        width: 1000%;">滑动鼠标滚轮，体验元宇宙入口</p> -->
+    </div>
+
+    <script>
+        const canvasParent = document.querySelector('.canvas-parent')
+
+        const clock = new THREE.Clock();
+
+        const scene = new THREE.Scene();
+        scene.background = new THREE.Color(0x0f1332);
+        scene.fog = new THREE.Fog(0x000000, 1, 1000);
+
+        const camera = new THREE.PerspectiveCamera(45, canvasParent.clientWidth / canvasParent.clientHeight, 0.1, 10000);
+        camera.position.set(1.8, 5.5, 119);
+
+        const renderer = new THREE.WebGLRenderer();
+        renderer.setPixelRatio(window.devicePixelRatio);
+        renderer.setSize(window.innerWidth, window.innerHeight);
+
+        canvasParent.appendChild(renderer.domElement);
+
+
+        // window.play = [];
+
+        // 特效
+        const composer = new Composer(scene, camera, renderer);
+
+        let controls = new THREE.OrbitControls(camera, renderer.domElement);
+
+
+
+        // story
+        let story = new Story(scene, camera, controls);
+
+        document.getElementById('start').addEventListener('click', e => {
+            // createScene();
+            document.getElementById('music-pannel').style.display = 'flex';
+            story.initMusic('waveform', '#9f3e5a', '#ef97b1');
+            document.getElementById('start').remove();
+            lightbars.scale.set(30, 10, 30)
+            lightbars.position.y = 60;
+
+            fetch('assets/json/story-2.json').then(async res => {
+                story.initStory(1, await res.json(), true)
+            })
+
+        });
+
+        document.getElementById('change-music').addEventListener('click', e => story.nextMusic())
+
+        fetch('assets/json/story-1.json').then(async res => {
+            story.initStory(0, await res.json())
+        })
+
+
+
+        // 创建场景里的物体
+        createSceneObjects(story);
+
+
+
+        function render() {
+
+            const delta = clock.getDelta();
+
+            for (const child of scene.children) {
+                if (child.loop) child.loop(delta, window.peak);
+            }
+
+            if (window.peak) {
+                composer.effectRGBShift.uniforms['amount'].value = 0.0042 + 0.01 * window.peak;
+            }
+
+            controls.update(delta)
+            renderer.render(scene, camera);
+            composer.render();
+
+            window.requestAnimationFrame(render);
+
+        }
+
+
+        render();
+        window.addEventListener("resize", handleResize, false);
+
+        function handleResize() {}
+
+
+
+        // gui = new GUI('editor', story)
+
+
+        // const raycaster = new THREE.Raycaster(),
+        //     mouse = new THREE.Vector2();
+
+        // function onMouseMove(event) {
+
+        //     // calculate mouse position in normalized device coordinates
+        //     // (-1 to +1) for both components
+
+        //     mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+        //     mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+
+        // }
+
+        // window.addEventListener('mousemove', onMouseMove, false);
+        // window.addEventListener('click', pickPiece);
+
+        // function pickPiece() {
+        //     raycaster.setFromCamera(mouse, camera);
+        //     const intersects = raycaster.intersectObjects(scene.children);
+        //     for (let i = 0; i < intersects.length; i++) {
+        //         // You can do anything you want here, this is just an example to make the hovered object transparent
+        //         if (intersects[i].object.name) {
+        //             console.log(intersects[i].object.name, mouse)
+        //             document.getElementById('mouse-test').style = `left:${ window.innerWidth*(mouse.x+1)/2}px;top:${ -window.innerHeight*(mouse.y-1)/2}px`;
+        //             document.getElementById('mouse-test').innerText = intersects[i].object.name;
+        //         }
+
+        //     }
+        // }
+    </script>
+
+
+</body>
+
+</html>
