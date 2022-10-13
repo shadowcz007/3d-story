@@ -119,89 +119,118 @@
     </div>
 
     <script>
-        const canvasParent = document.querySelector('.canvas-parent')
+        function preload() {
+            Promise.all(Array.from(
+                [
+                    'assets/images/lights/11.png',
+                    'assets/images/skybox1.jpg',
+                    'assets/images/background.png',
 
-        const clock = new THREE.Clock();
+                    'assets/json/story-2.json',
+                    'assets/json/story-1.json',
+                    'assets/model/ring.glb',
+                    'assets/model/girl.glb',
+                    'assets/model/scene.glb',
+                    ...Array.from(new Array(11), (_, i) => `assets/images/lights/${i+1}.png`),
+                    ...Array.from(new Array(2), (_, i) => `assets/music/${i}.m4a`)
 
-        const scene = new THREE.Scene();
-        scene.background = new THREE.Color(0x0f1332);
-        scene.fog = new THREE.Fog(0x000000, 1, 1000);
-
-        const camera = new THREE.PerspectiveCamera(45, canvasParent.clientWidth / canvasParent.clientHeight, 0.1, 10000);
-        camera.position.set(1.8, 5.5, 119);
-
-        const renderer = new THREE.WebGLRenderer();
-        renderer.setPixelRatio(window.devicePixelRatio);
-        renderer.setSize(window.innerWidth, window.innerHeight);
-
-        canvasParent.appendChild(renderer.domElement);
-
-
-        // window.play = [];
-
-        // 特效
-        const composer = new Composer(scene, camera, renderer);
-
-        let controls = new THREE.OrbitControls(camera, renderer.domElement);
-
-
-
-        // story
-        let story = new Story(scene, camera, controls);
-
-        document.getElementById('start').addEventListener('click', e => {
-            // createScene();
-            document.getElementById('music-pannel').style.display = 'flex';
-            story.initMusic('waveform', '#9f3e5a', '#ef97b1');
-            document.getElementById('start').remove();
-            lightbars.scale.set(30, 10, 30)
-            lightbars.position.y = 60;
-
-            fetch('assets/json/story-2.json').then(async res => {
-                story.initStory(1, await res.json(), true)
-            })
-
-        });
-
-        document.getElementById('change-music').addEventListener('click', e => story.nextMusic())
-
-        fetch('assets/json/story-1.json').then(async res => {
-            story.initStory(0, await res.json())
-        })
-
-
-
-        // 创建场景里的物体
-        createSceneObjects(story);
-
-
-
-        function render() {
-
-            const delta = clock.getDelta();
-
-            for (const child of scene.children) {
-                if (child.loop) child.loop(delta, window.peak);
-            }
-
-            if (window.peak) {
-                composer.effectRGBShift.uniforms['amount'].value = 0.0042 + 0.01 * window.peak;
-            }
-
-            controls.update(delta)
-            renderer.render(scene, camera);
-            composer.render();
-
-            window.requestAnimationFrame(render);
-
+                ], url => fetch(url)
+            )).then(values => {
+                console.log(values);
+                init();
+            }).catch(reason => {
+                console.log(reason)
+                preload()
+            });
         }
 
 
-        render();
-        window.addEventListener("resize", handleResize, false);
 
-        function handleResize() {}
+        function init() {
+            const canvasParent = document.querySelector('.canvas-parent')
 
+            const clock = new THREE.Clock();
+
+            const scene = new THREE.Scene();
+            scene.background = new THREE.Color(0x0f1332);
+            scene.fog = new THREE.Fog(0x000000, 1, 1000);
+
+            const camera = new THREE.PerspectiveCamera(45, canvasParent.clientWidth / canvasParent.clientHeight, 0.1, 10000);
+            camera.position.set(1.8, 5.5, 119);
+
+            const renderer = new THREE.WebGLRenderer();
+            renderer.setPixelRatio(window.devicePixelRatio);
+            renderer.setSize(window.innerWidth, window.innerHeight);
+
+            canvasParent.appendChild(renderer.domElement);
+
+
+            // window.play = [];
+
+            // 特效
+            const composer = new Composer(scene, camera, renderer);
+
+            let controls = new THREE.OrbitControls(camera, renderer.domElement);
+
+
+
+            // story
+            let story = new Story(scene, camera, controls);
+
+            document.getElementById('start').addEventListener('click', e => {
+                // createScene();
+                document.getElementById('music-pannel').style.display = 'flex';
+                story.initMusic('waveform', '#9f3e5a', '#ef97b1');
+                document.getElementById('start').remove();
+                lightbars.scale.set(30, 10, 30)
+                lightbars.position.y = 60;
+
+                fetch('assets/json/story-2.json').then(async res => {
+                    story.initStory(1, await res.json(), true)
+                })
+
+            });
+
+            document.getElementById('change-music').addEventListener('click', e => story.nextMusic())
+
+            fetch('assets/json/story-1.json').then(async res => {
+                story.initStory(0, await res.json())
+            })
+
+
+
+            // 创建场景里的物体
+            createSceneObjects(story);
+
+
+
+            function render() {
+
+                const delta = clock.getDelta();
+
+                for (const child of scene.children) {
+                    if (child.loop) child.loop(delta, window.peak);
+                }
+
+                if (window.peak) {
+                    composer.effectRGBShift.uniforms['amount'].value = 0.0042 + 0.01 * window.peak;
+                }
+
+                controls.update(delta)
+                renderer.render(scene, camera);
+                composer.render();
+
+                window.requestAnimationFrame(render);
+
+            }
+
+
+            render();
+            window.addEventListener("resize", handleResize, false);
+
+            function handleResize() {}
+
+        }
 
 
         // gui = new GUI('editor', story)
