@@ -67,6 +67,8 @@ class Story {
     }
 
     initMusic(id = 'waveform', waveColor = '#9f3e5a', progressColor = '#ef97b1') {
+        this.isPlayMusic = true;
+
         this.musicId = this.musicId || id;
         this.waveColor = this.waveColor || waveColor;
         this.progressColor = this.progressColor || progressColor;
@@ -182,7 +184,8 @@ class Story {
             let g = new THREE.Group();
             g.name = 'auto';
             g.loop = (_, peak) => {
-                window._cacheRoadIndex += 0.1;
+                // console.log(peak)
+                window._cacheRoadIndex += 0.4;
                 // window._cacheRoadIndex = Math.round(window._cacheRoadIndex)
                 this.playCurrentFrame();
                 // gui的显示逻辑
@@ -239,6 +242,8 @@ class Story {
     }
 
     handleMouseWheel(event) {
+        // 播音乐的时候，不控制进度
+        if (this.isPlayMusic) return
         console.log(window._cacheRoadIndex)
         if (window._cacheRoadIndex == null || window._cacheRoadIndex == undefined || !window._cacheRoad || !window.isWheelControl) return
 
